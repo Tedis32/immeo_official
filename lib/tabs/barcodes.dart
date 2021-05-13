@@ -27,47 +27,6 @@ class _BarcodesState extends State<Barcodes> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text(_message),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              child: Text('Read saved Barcode'),
-              onPressed: () {
-                _read();
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              child: Text('Save current Barcode'),
-              onPressed: () {
-                _save();
-              },
-            ),
-          ),
-          _barcodeData != null
-              ? QrImage(
-                  data: _barcodeData,
-                  version: QrVersions.auto,
-                  size: 250.0,
-                )
-              : Text("No barcode loaded."),
-          TextButton(
-            child: Text('Scan Barcode'),
-            onPressed: () => {
-              scanNewBarcode(),
-            },
-          )
-        ]);
-  }
-
   _read() async {
     DatabaseHelper helper = DatabaseHelper.instance;
     int rowId = 1;
@@ -91,13 +50,47 @@ class _BarcodesState extends State<Barcodes> {
     bc.data = _barcodeData;
     DatabaseHelper helper = DatabaseHelper.instance;
 
-    // Empty local database before adding new barcode
-    int deletedRows = await helper.clearDatabase();
-    log('DeletedRows: $deletedRows');
-
     int id = await helper.insert(bc);
     setState(() {
       _message = 'Barcode: $_barcodeData saved to local database with id: $id';
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text(_message),
+          ElevatedButton(
+            child: Text('Read saved Barcode'),
+            onPressed: () {
+              _read();
+            },
+          ),
+          ElevatedButton(
+            child: Text('Save current Barcode'),
+            onPressed: () {
+              _save();
+            },
+          ),
+          _barcodeData != null
+              ? QrImage(
+                  data: _barcodeData,
+                  version: QrVersions.auto,
+                  size: 250.0,
+                )
+              : Text("No barcode loaded."),
+          TextButton(
+            child: Text('Scan Barcode'),
+            onPressed: () => {
+              scanNewBarcode(),
+            },
+          )
+        ],
+      ),
+    );
   }
 }

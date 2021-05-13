@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:developer';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -30,6 +31,10 @@ class Barcode {
       map[columnId] = id;
     }
     return map;
+  }
+
+  String toString() {
+    return '_id: $id, _data: $data';
   }
 }
 
@@ -98,7 +103,23 @@ class DatabaseHelper {
     return deletedRows;
   }
 
-  // TODO: queryAllWords()
-  // TODO: delete(int id)
-  // TODO: update(Word word)
+  Future<List<Barcode>> loadAll() async {
+    Database db = await database;
+    List<Map> maps = await db.query(tableBarcodes);
+    List<Barcode> result = [];
+    maps.forEach((map) {
+      result.add(Barcode.fromMap(map));
+    });
+    return result;
+  }
+
+  Future<bool> deleteBarcodeByIndex(int index) async {
+    Database db = await database;
+    int deletedRows = await db.delete(
+      tableBarcodes,
+      where: '$columnId = ?',
+      whereArgs: [index],
+    );
+    return deletedRows > 0;
+  }
 }
