@@ -15,18 +15,6 @@ class _BarcodesState extends State<Barcodes> {
   String _barcodeData;
   String _message = "No message to display to user";
 
-  void scanNewBarcode() async {
-    log('Button pressed');
-    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-        "#ff6666", "Exit Scanner", false, ScanMode.DEFAULT);
-
-    log('Result: ' + barcodeScanRes);
-
-    setState(() {
-      _barcodeData = barcodeScanRes;
-    });
-  }
-
   _read() async {
     DatabaseHelper helper = DatabaseHelper.instance;
     int rowId = 1;
@@ -86,7 +74,7 @@ class _BarcodesState extends State<Barcodes> {
           TextButton(
             child: Text('Scan Barcode'),
             onPressed: () => {
-              scanNewBarcode(),
+              // scanNewBarcode(),
             },
           )
         ],
