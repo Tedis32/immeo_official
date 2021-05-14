@@ -21,11 +21,11 @@ class _HomePageState extends State<HomePage> {
         title: _currentIndex == 0
             ? Text("Featured",
                 style:
-                    TextStyle(fontFamily: GoogleFonts.sacramento().fontFamily))
+                    TextStyle(fontFamily: GoogleFonts.shadowsIntoLight().fontFamily, fontSize: 30))
             : Text(
                 "Barcodes",
                 style:
-                    TextStyle(fontFamily: GoogleFonts.sacramento().fontFamily, fontSize: 25),
+                    TextStyle(fontFamily: GoogleFonts.shadowsIntoLight().fontFamily, fontSize: 30),
               ),
       ),
       body: IndexedStack(children: tabs, index: _currentIndex),
