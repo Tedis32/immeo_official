@@ -13,47 +13,52 @@ class _HomePageState extends State<HomePage> {
     Featured(),
     Barcodes(),
   ];
+  late ThemeData themeData;
+
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
+    themeData = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: _currentIndex == 0
             ? Text("Featured",
-                style:
-                    TextStyle(fontFamily: GoogleFonts.shadowsIntoLight().fontFamily, fontSize: 30))
+                style: TextStyle(
+                    fontFamily: GoogleFonts.shadowsIntoLight().fontFamily,
+                    fontSize: 30))
             : Text(
                 "Barcodes",
-                style:
-                    TextStyle(fontFamily: GoogleFonts.shadowsIntoLight().fontFamily, fontSize: 30),
+                style: TextStyle(
+                    fontFamily: GoogleFonts.shadowsIntoLight().fontFamily,
+                    fontSize: 30),
               ),
       ),
       body: IndexedStack(children: tabs, index: _currentIndex),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.amber[600],
-        unselectedItemColor: Colors.white54,
-        backgroundColor: Colors.black,
         currentIndex: _currentIndex,
+        backgroundColor: themeData.bottomAppBarTheme.color,
+        selectedIconTheme: IconThemeData(color: themeData.primaryColor),
+        selectedItemColor: themeData.primaryColor,
+        unselectedIconTheme:
+            IconThemeData(color: themeData.colorScheme.onBackground),
+        unselectedItemColor: themeData.colorScheme.onBackground,
+        onTap: onTapped,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Featured",
-            backgroundColor: Colors.white,
-          ),
+              icon: new Icon(Icons.home), label: 'Featured'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.qr_code),
-            label: "Barcodes",
-            backgroundColor: Colors.white,
-          ),
+            icon: new Icon(Icons.code),
+            label: 'Barcodes',
+          )
         ],
-        onTap: (index) {
-          setState(
-            () {
-              _currentIndex = index;
-            },
-          );
-        },
       ),
     );
+  }
+
+  onTapped(value) {
+    setState(() {
+      _currentIndex = value;
+    });
   }
 }

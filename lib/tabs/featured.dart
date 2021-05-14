@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:barcode/barcode.dart';
 class Featured extends StatefulWidget {
   @override
   _FeaturedState createState() => _FeaturedState();
@@ -20,12 +20,7 @@ class _FeaturedState extends State<Featured> {
               child: Center(
                 child: Text(
                   "Fitness Factory",
-                  /* style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                      fontFamily:
-                          GoogleFonts.robotoMono(fontWeight: FontWeight.normal)
-                              .fontFamily), */
+                  
                 ),
               ),
             ),
@@ -44,10 +39,7 @@ class _FeaturedState extends State<Featured> {
                   ),
                   Expanded(
                     child: ElevatedButton(
-                      /* style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.blue[800]),
-                      ), */
+                     
                       onPressed: () {},
                       child: Text("Shop"),
                     ),
@@ -57,10 +49,7 @@ class _FeaturedState extends State<Featured> {
                   ),
                   Expanded(
                     child: ElevatedButton(
-                      /* style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.orange[800]),
-                      ), */
+                      
                       onPressed: () {},
                       child: Text("Alerts"),
                     ),
