@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:barcode_flutter/barcode_flutter.dart';
 
 class Featured extends StatefulWidget {
   @override
@@ -21,37 +20,17 @@ class _FeaturedState extends State<Featured> {
               child: Center(
                 child: Text(
                   "Fitness Factory",
-                  style: TextStyle(
+                  /* style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
                       fontFamily:
                           GoogleFonts.robotoMono(fontWeight: FontWeight.normal)
-                              .fontFamily),
+                              .fontFamily), */
                 ),
               ),
             ),
             Padding(
               padding: EdgeInsets.only(top: data.size.height * 0.1),
-            ),
-            Container(
-              child: BarCodeImage(
-                padding: EdgeInsets.only(
-                    left: data.size.width * 0.05,
-                    right: data.size.width * 0.05),
-                params: Code39BarCodeParams(
-                  "MOCK39",
-                  lineWidth:
-                      2.0, // width for a single black/white bar (default: 2.0)
-                  barHeight:
-                      130.0, // height for the entire widget (default: 100.0)
-                  withText:
-                      true, // Render with text label or not (default: false)
-                ),
-                onError: (error) {
-                  // Error handler
-                  print('error = $error');
-                },
-              ),
             ),
             Padding(
               padding: EdgeInsets.only(top: data.size.height * 0.30),
@@ -65,10 +44,10 @@ class _FeaturedState extends State<Featured> {
                   ),
                   Expanded(
                     child: ElevatedButton(
-                      style: ButtonStyle(
+                      /* style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all(Colors.blue[800]),
-                      ),
+                      ), */
                       onPressed: () {},
                       child: Text("Shop"),
                     ),
@@ -78,10 +57,10 @@ class _FeaturedState extends State<Featured> {
                   ),
                   Expanded(
                     child: ElevatedButton(
-                      style: ButtonStyle(
+                      /* style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all(Colors.orange[800]),
-                      ),
+                      ), */
                       onPressed: () {},
                       child: Text("Alerts"),
                     ),
