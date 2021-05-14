@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'AppTheme.dart';
+import 'UI_stuff/AppTheme.dart';
 import 'AppThemeNotifier.dart';
-import 'homepage.dart';
+import 'tabs/homepage.dart';
 
 class App extends StatefulWidget {
   @override

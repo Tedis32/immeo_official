@@ -6,7 +6,6 @@ import 'AppThemeNotifier.dart';
 import 'app.dart';
 
 void main() {
-
   //You will need to initialize AppThemeNotifier class for theme changes.
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
@@ -17,4 +16,3 @@ void main() {
     ));
   });
 }
-
