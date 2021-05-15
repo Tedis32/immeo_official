@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'authentication/homepage.dart';
+import 'package:provider/provider.dart';
+import 'UI_stuff/AppTheme.dart';
+import 'AppThemeNotifier.dart';
+import 'tabs/homepage.dart';
 
 class App extends StatefulWidget {
   @override
@@ -11,13 +13,13 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HomePage(),
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(color: Colors.black),
-        fontFamily: GoogleFonts.roboto(fontWeight: FontWeight.normal).fontFamily,
-      ),
+    return Consumer<AppThemeNotifier>(
+      builder: (BuildContext context, AppThemeNotifier value, Widget? child) {
+        return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.getThemeFromThemeMode(value.themeMode()),
+            home: HomePage());
+      },
     );
   }
 }
