@@ -38,10 +38,12 @@ class DatabaseHelper {
 
   // SQL string to create the database
   Future _onCreate(Database db, int version) async {
+    String bid = Barcode.idField;
+    String bdf = Barcode.dataField;
     await db.execute('''
           CREATE TABLE $tableBarcodes (
-            $Barcode.idField INTEGER PRIMARY KEY,
-            $Barcode.dataField TEXT NOT NULL
+            $bid INTEGER PRIMARY KEY,
+            $bdf TEXT NOT NULL
           )
           ''');
   }
@@ -58,7 +60,7 @@ class DatabaseHelper {
     Database db = await database;
     List<Map> maps = await db.query(tableBarcodes,
         columns: [Barcode.idField, Barcode.dataField],
-        where: '$Barcode.idField = ?',
+        where: Barcode.idField + ' = ?',
         whereArgs: [id]);
     if (maps.length > 0) {
       return Barcode.fromMap(maps.first);
@@ -86,7 +88,7 @@ class DatabaseHelper {
     Database db = await database;
     int deletedRows = await db.delete(
       tableBarcodes,
-      where: '$Barcode.idField = ?',
+      where: Barcode.idField + ' = ?',
       whereArgs: [index],
     );
     return deletedRows > 0;
