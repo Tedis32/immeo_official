@@ -1,42 +1,11 @@
 import 'dart:io';
-import 'dart:developer';
 import 'package:path/path.dart';
+import 'package:scan_in/models/Barcode.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 // Database table and column names
 final String tableBarcodes = 'barcodes';
-final String columnId = '_id';
-final String columnBarcode = 'barcode';
-
-// Data model class
-class Barcode {
-  int id;
-  String data;
-
-  Barcode();
-
-  // convenience constructor to create a Word object
-  Barcode.fromMap(Map<String, dynamic> map) {
-    id = map[columnId];
-    data = map[columnBarcode];
-  }
-
-  // convenience method to create a Map from this Word object
-  Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{
-      columnBarcode: data,
-    };
-    if (id != null) {
-      map[columnId] = id;
-    }
-    return map;
-  }
-
-  String toString() {
-    return '_id: $id, _data: $data';
-  }
-}
 
 // singleton class to manage the database
 class DatabaseHelper {
@@ -71,8 +40,8 @@ class DatabaseHelper {
   Future _onCreate(Database db, int version) async {
     await db.execute('''
           CREATE TABLE $tableBarcodes (
-            $columnId INTEGER PRIMARY KEY,
-            $columnBarcode TEXT NOT NULL
+            $Barcode.idField INTEGER PRIMARY KEY,
+            $Barcode.dataField TEXT NOT NULL
           )
           ''');
   }
@@ -88,8 +57,8 @@ class DatabaseHelper {
   Future<Barcode> queryBarcode(int id) async {
     Database db = await database;
     List<Map> maps = await db.query(tableBarcodes,
-        columns: [columnId, columnBarcode],
-        where: '$columnId = ?',
+        columns: [Barcode.idField, Barcode.dataField],
+        where: '$Barcode.idField = ?',
         whereArgs: [id]);
     if (maps.length > 0) {
       return Barcode.fromMap(maps.first);
@@ -117,9 +86,19 @@ class DatabaseHelper {
     Database db = await database;
     int deletedRows = await db.delete(
       tableBarcodes,
-      where: '$columnId = ?',
+      where: '$Barcode.idField = ?',
       whereArgs: [index],
     );
     return deletedRows > 0;
+  }
+
+  Future<int> getNextBarcodeId() async {
+    Database db = await database;
+    // Find the highest barcode id existing in the database
+    var query = await db.query(tableBarcodes,
+        orderBy: Barcode.idField + ' DESC', limit: 1);
+    // Return the highest existing barcode id + 1
+    // Next available barcode id
+    return query[0]['_id'] + 1;
   }
 }
