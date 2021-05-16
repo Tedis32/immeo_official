@@ -8,8 +8,6 @@ class Featured extends StatefulWidget {
 class _FeaturedState extends State<Featured> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
-    );
+    return Container();
   }
 }

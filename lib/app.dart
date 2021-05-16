@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'authentication/homepage.dart';
+import 'pages/homepage.dart';
 
 class App extends StatefulWidget {
   @override
@@ -16,7 +16,8 @@ class _AppState extends State<App> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         appBarTheme: AppBarTheme(color: Colors.black),
-        fontFamily: GoogleFonts.roboto(fontWeight: FontWeight.normal).fontFamily,
+        fontFamily:
+            GoogleFonts.roboto(fontWeight: FontWeight.normal).fontFamily,
       ),
     );
   }
