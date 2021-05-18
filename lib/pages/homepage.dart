@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:scan_in/services/barcode_service.dart';
 import 'package:scan_in/tabs/barcodes.dart';
-import 'package:scan_in/tabs/featured.dart';
+import 'package:scan_in/tabs/featured_tab_regulator/featured.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,7 +10,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final tabs = [
-    Featured(),
+    Featured(
+      index: 0,
+    ),
     Barcodes(),
   ];
   int _currentIndex = 0;
@@ -33,17 +33,6 @@ class _HomePageState extends State<HomePage> {
               ),
       ),
       body: IndexedStack(children: tabs, index: _currentIndex),
-      floatingActionButton: _currentIndex == 1
-          ? FloatingActionButton(
-              backgroundColor: Colors.amber[600],
-              child: Icon(
-                Icons.camera_enhance_rounded,
-                color: Colors.black,
-              ),
-              onPressed: () => _scanNewBarcode(),
-            )
-          : Container(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.amber[600],
         unselectedItemColor: Colors.white54,
@@ -70,20 +59,5 @@ class _HomePageState extends State<HomePage> {
         },
       ),
     );
-  }
-
-  _scanNewBarcode() async {
-    print('Button pressed');
-    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-        "#ff6666", "Exit Scanner", false, ScanMode.DEFAULT);
-
-    print('Result: ' + barcodeScanRes);
-
-    if (barcodeScanRes == null || barcodeScanRes == '-1') {
-      return false;
-    }
-
-    int iRows = await BarcodeService.addBarcode(barcodeScanRes);
-    return iRows > 0;
   }
 }

@@ -1,7 +1,7 @@
 // Data model class
 class Barcode {
-  int id;
-  String data;
+  int id = 0;
+  String data = "";
 
   static final String idField = '_id';
   static final String dataField = 'barcode';

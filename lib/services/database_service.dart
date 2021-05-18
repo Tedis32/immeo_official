@@ -14,15 +14,18 @@ class DatabaseHelper {
   // Increment this version when you need to change the schema.
   static final _databaseVersion = 1;
 
+  static late Database _database;
+
   // Make this a singleton class.
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
   // Only allow a single open connection to the database.
-  static Database _database;
+  //static Database _database;
   Future<Database> get database async {
-    if (_database != null) return _database;
-    _database = await _initDatabase();
+    if (!_database.isOpen) {
+      _database = await _initDatabase();
+    }
     return _database;
   }
 
@@ -58,14 +61,15 @@ class DatabaseHelper {
 
   Future<Barcode> queryBarcode(int id) async {
     Database db = await database;
-    List<Map> maps = await db.query(tableBarcodes,
+    List<Map<String, dynamic>> maps = await db.query(tableBarcodes,
         columns: [Barcode.idField, Barcode.dataField],
         where: Barcode.idField + ' = ?',
         whereArgs: [id]);
     if (maps.length > 0) {
       return Barcode.fromMap(maps.first);
+    } else {
+      throw Exception('you are gay');
     }
-    return null;
   }
 
   Future<int> clearDatabase() async {
@@ -76,7 +80,7 @@ class DatabaseHelper {
 
   Future<List<Barcode>> loadAll() async {
     Database db = await database;
-    List<Map> maps = await db.query(tableBarcodes);
+    List<Map<String, dynamic>> maps = await db.query(tableBarcodes);
     List<Barcode> result = [];
     maps.forEach((map) {
       result.add(Barcode.fromMap(map));
@@ -97,7 +101,7 @@ class DatabaseHelper {
   Future<int> getNextBarcodeId() async {
     Database db = await database;
     // Find the highest barcode id existing in the database
-    var query = await db.query(tableBarcodes,
+    List<Map<String, dynamic>> query = await db.query(tableBarcodes,
         orderBy: Barcode.idField + ' DESC', limit: 1);
     // Return the highest existing barcode id + 1
     // Next available barcode id

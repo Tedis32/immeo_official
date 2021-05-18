@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:barcode/barcode.dart';
-import 'package:scan_in/main.dart';
 import 'package:scan_in/shop/shop.dart';
 import 'alerts.dart';
 

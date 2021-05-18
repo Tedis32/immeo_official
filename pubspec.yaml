@@ -30,7 +30,7 @@ dependencies:
   qr_flutter: ^4.0.0
 
   # Database for storing barcode data locally
-  sqflite: ^1.0.0
+  sqflite: ^2.0.0+3
   path_provider: ^2.0.0
 
   # The following adds the Cupertino Icons font to your application.
