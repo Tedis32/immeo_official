@@ -1,8 +1,10 @@
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:scan_in/models/Barcode.dart';
 import 'package:scan_in/services/barcode_service.dart';
 import 'package:scan_in/services/database_service.dart';
+import 'package:barcode/barcode.dart';
 
 class Barcodes extends StatefulWidget {
   @override
@@ -10,7 +12,8 @@ class Barcodes extends StatefulWidget {
 }
 
 class _BarcodesState extends State<Barcodes> {
-  List<Barcode> _barcodesList = [];
+  List<BarcodeEntity> _barcodesList = [];
+  late BarcodeEntity _selectedBarcode;
 
   @override
   void initState() {
@@ -43,27 +46,6 @@ class _BarcodesState extends State<Barcodes> {
     }
   }
 
-  Widget _buildPopupDialog(BuildContext context, int bcIndex) {
-    return new AlertDialog(
-      title: const Text('Popup example'),
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(_barcodesList[bcIndex].data),
-        ],
-      ),
-      actions: <Widget>[
-        new TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text('Close'),
-        ),
-      ],
-    );
-  }
-
   _scanNewBarcode() async {
     print('Button pressed');
     String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
@@ -73,11 +55,37 @@ class _BarcodesState extends State<Barcodes> {
 
     if (barcodeScanRes == '-1') {
       // User has closed barcode scanner
-      barcodeScanRes = "example";
+      // FIXME: Remove next line only for testing purposes
+      barcodeScanRes = "abcd";
     }
 
     int iRows = await BarcodeService.addBarcode(barcodeScanRes);
     return iRows > 0;
+  }
+
+  void _openBarcodeModal() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Column(
+          children: <Widget>[
+            BarcodeWidget(
+              data: _selectedBarcode.data,
+              barcode: Barcode.code128(),
+              height: 250,
+              padding: EdgeInsets.all(10),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Close'),
+            )
+          ],
+        );
+      },
+      backgroundColor: Colors.white,
+    );
   }
 
   @override
@@ -119,11 +127,12 @@ class _BarcodesState extends State<Barcodes> {
                         icon: Icon(Icons.delete_rounded),
                         onPressed: () => {_delete(_barcodesList[index].id)},
                       ),
-                      onTap: () => showDialog(
-                        context: context,
-                        builder: (BuildContext context) =>
-                            _buildPopupDialog(context, index),
-                      ),
+                      onTap: () {
+                        setState(() {
+                          _selectedBarcode = _barcodesList[index];
+                        });
+                        _openBarcodeModal();
+                      },
                     );
                   },
                 ),

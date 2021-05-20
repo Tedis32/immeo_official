@@ -1,15 +1,15 @@
 // Data model class
-class Barcode {
+class BarcodeEntity {
   int id = -1;
   String data = "";
 
   static final String idField = '_id';
   static final String dataField = 'barcode';
 
-  Barcode();
+  BarcodeEntity();
 
   // convenience constructor to create a Word object
-  Barcode.fromMap(Map<String, dynamic> map) {
+  BarcodeEntity.fromMap(Map<String, dynamic> map) {
     id = map[idField];
     data = map[dataField];
   }

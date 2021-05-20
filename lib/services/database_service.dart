@@ -35,8 +35,8 @@ class DatabaseService {
   // SQL string to create the database
   Future _onCreate(Database db, int version) async {
     // Get names of barcode id and data fields
-    String bid = Barcode.idField;
-    String bdf = Barcode.dataField;
+    String bid = BarcodeEntity.idField;
+    String bdf = BarcodeEntity.dataField;
     await db.execute('''
           CREATE TABLE $_dbTable (
             $bid INTEGER PRIMARY KEY,
@@ -47,21 +47,21 @@ class DatabaseService {
 
   // Database helper methods:
 
-  Future<int> insert(Barcode bc) async {
+  Future<int> insert(BarcodeEntity bc) async {
     Database dbClient = await database;
     int id = await dbClient.insert(_dbTable, bc.toMap());
     return id;
   }
 
-  Future<Barcode> queryBarcode(int id) async {
+  Future<BarcodeEntity> queryBarcode(int id) async {
     Database db = await database;
 
     List<Map<String, dynamic>> maps = await db.query(_dbTable,
-        columns: [Barcode.idField, Barcode.dataField],
-        where: Barcode.idField + ' = ?',
+        columns: [BarcodeEntity.idField, BarcodeEntity.dataField],
+        where: BarcodeEntity.idField + ' = ?',
         whereArgs: [id]);
     if (maps.length > 0) {
-      return Barcode.fromMap(maps.first);
+      return BarcodeEntity.fromMap(maps.first);
     } else {
       throw Exception('you are gay');
     }
@@ -73,12 +73,12 @@ class DatabaseService {
     return deletedRows;
   }
 
-  Future<List<Barcode>> loadAll() async {
+  Future<List<BarcodeEntity>> loadAll() async {
     Database db = await database;
     List<Map<String, dynamic>> maps = await db.query(_dbTable);
-    List<Barcode> result = [];
+    List<BarcodeEntity> result = [];
     maps.forEach((map) {
-      result.add(Barcode.fromMap(map));
+      result.add(BarcodeEntity.fromMap(map));
     });
     return result;
   }
@@ -87,7 +87,7 @@ class DatabaseService {
     Database db = await database;
     int deletedRows = await db.delete(
       _dbTable,
-      where: Barcode.idField + ' = ?',
+      where: BarcodeEntity.idField + ' = ?',
       whereArgs: [index],
     );
     return deletedRows > 0;
@@ -96,8 +96,8 @@ class DatabaseService {
   Future<int> getNextBarcodeId() async {
     Database db = await database;
     // Find the highest barcode id existing in the database
-    List<Map<String, dynamic>> query =
-        await db.query(_dbTable, orderBy: Barcode.idField + ' DESC', limit: 1);
+    List<Map<String, dynamic>> query = await db.query(_dbTable,
+        orderBy: BarcodeEntity.idField + ' DESC', limit: 1);
     // Return the highest existing barcode id + 1
     // Next available barcode id
 
