@@ -37,10 +37,14 @@ class DatabaseService {
     // Get names of barcode id and data fields
     String bid = BarcodeEntity.idField;
     String bdf = BarcodeEntity.dataField;
+    String tdf = BarcodeEntity.titleField;
+    String fdf = BarcodeEntity.featuredField;
     await db.execute('''
           CREATE TABLE $_dbTable (
             $bid INTEGER PRIMARY KEY,
-            $bdf TEXT NOT NULL
+            $bdf TEXT NOT NULL,
+            $tdf TEXT NOT NULL,
+            $fdf INTEGER NOT NULL
           )
           ''');
   }

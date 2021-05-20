@@ -35,7 +35,7 @@ class _BarcodesState extends State<Barcodes> {
     });
   }
 
-  _delete(int index) async {
+  void _delete(int index) async {
     DatabaseService helper = DatabaseService.instance;
     bool deleted = await helper.deleteBarcodeByIndex(index);
     if (deleted) {
@@ -46,7 +46,7 @@ class _BarcodesState extends State<Barcodes> {
     }
   }
 
-  _scanNewBarcode() async {
+  void _scanNewBarcode() async {
     print('Button pressed');
     String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
         "#ff6666", "Exit Scanner", false, ScanMode.DEFAULT);
@@ -60,14 +60,26 @@ class _BarcodesState extends State<Barcodes> {
     }
 
     int iRows = await BarcodeService.addBarcode(barcodeScanRes);
-    return iRows > 0;
+    if (iRows > 0) {
+      _loadBarcodes();
+    }
   }
 
-  void _openBarcodeModal() {
+  void _openViewBarcodeModal() {
     showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25.0),
+        ),
+      ),
+      backgroundColor: Colors.white,
       context: context,
-      builder: (context) {
-        return Column(
+      isScrollControlled: true,
+      builder: (context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             BarcodeWidget(
               data: _selectedBarcode.data,
@@ -82,9 +94,77 @@ class _BarcodesState extends State<Barcodes> {
               child: Text('Close'),
             )
           ],
+        ),
+      ),
+    );
+  }
+
+  void _openEditBarcodeModal() {
+    showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25.0),
+        ),
+      ),
+      backgroundColor: Colors.white,
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 25),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Edit Barcode'),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: Colors.red[800]),
+                    onPressed: () {
+                      _delete(_selectedBarcode.id);
+                      Navigator.pop(context);
+                    },
+                    child: Text('Delete "' + _selectedBarcode.title + '"'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget BarcodeList() {
+    return ListView.builder(
+      padding: const EdgeInsets.all(8),
+      shrinkWrap: true,
+      itemCount: _barcodesList.length,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          title: Text(_barcodesList[index].title),
+          subtitle: Text(_barcodesList[index].data),
+          trailing: IconButton(
+            icon: Icon(Icons.edit_rounded),
+            onPressed: () {
+              setState(() {
+                _selectedBarcode = _barcodesList[index];
+              });
+              _openEditBarcodeModal();
+            },
+          ),
+          onTap: () {
+            setState(() {
+              _selectedBarcode = _barcodesList[index];
+            });
+            _openViewBarcodeModal();
+          },
         );
       },
-      backgroundColor: Colors.white,
     );
   }
 
@@ -95,47 +175,11 @@ class _BarcodesState extends State<Barcodes> {
       child: Column(
         children: <Widget>[
           _barcodesList.isEmpty
-              ? (TextButton(
-                  onPressed: _loadBarcodes,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.refresh_rounded,
-                          color: Colors.amber[600],
-                        ),
-                      ),
-                      Text(
-                        'Refresh Barcodes',
-                        style: TextStyle(color: Colors.amber[600]),
-                      )
-                    ],
-                  ),
-                ))
-              : ListView.builder(
-                  padding: const EdgeInsets.all(8),
-                  shrinkWrap: true,
-                  itemCount: _barcodesList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      title: Text(_barcodesList[index].id.toString()),
-                      subtitle: Text(_barcodesList[index].data),
-                      trailing: IconButton(
-                        icon: Icon(Icons.delete_rounded),
-                        onPressed: () => {_delete(_barcodesList[index].id)},
-                      ),
-                      onTap: () {
-                        setState(() {
-                          _selectedBarcode = _barcodesList[index];
-                        });
-                        _openBarcodeModal();
-                      },
-                    );
-                  },
-                ),
+              ? Padding(
+                  padding: EdgeInsets.symmetric(vertical: 40),
+                  child: Text('It\'s empty here. Try adding a new barcode.'),
+                )
+              : BarcodeList(),
           TextButton(
             onPressed: _scanNewBarcode,
             child: Row(
