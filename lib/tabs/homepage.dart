@@ -3,8 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:scan_in/tabs/barcodes.dart';
 import 'package:scan_in/tabs/featured_tab_regulator/featured.dart';
 
-import '../main.dart';
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();

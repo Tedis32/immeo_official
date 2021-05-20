@@ -1,6 +1,6 @@
 // Data model class
 class Barcode {
-  int id = 0;
+  int id = -1;
   String data = "";
 
   static final String idField = '_id';
@@ -19,7 +19,7 @@ class Barcode {
     var map = <String, dynamic>{
       dataField: data,
     };
-    if (id != null) {
+    if (id != -1) {
       map[idField] = id;
     }
     return map;

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class MySize {
   static late MediaQueryData _mediaQueryData;
   static late double screenWidth;
@@ -138,11 +137,12 @@ class MySize {
 class Spacing {
   static EdgeInsetsGeometry zero = EdgeInsets.zero;
 
-  static EdgeInsetsGeometry only({double top = 0,
-    double right = 0,
-    double bottom = 0,
-    double left = 0,
-    bool withResponsive = true}) {
+  static EdgeInsetsGeometry only(
+      {double top = 0,
+      double right = 0,
+      double bottom = 0,
+      double left = 0,
+      bool withResponsive = true}) {
     if (withResponsive) {
       return EdgeInsets.only(
           left: MySize.getScaledSizeHeight(left),
@@ -155,8 +155,8 @@ class Spacing {
     }
   }
 
-  static EdgeInsetsGeometry fromLTRB(double left, double top, double right,
-      double bottom,
+  static EdgeInsetsGeometry fromLTRB(
+      double left, double top, double right, double bottom,
       {bool withResponsive = true}) {
     return Spacing.only(
         bottom: bottom,
@@ -174,7 +174,6 @@ class Spacing {
         left: spacing,
         withResponsive: withResponsive);
   }
-
 
   static EdgeInsetsGeometry left(double spacing, {bool withResponsive = true}) {
     return Spacing.only(left: spacing, withResponsive: withResponsive);
@@ -206,91 +205,86 @@ class Spacing {
         top: spacing, bottom: spacing, withResponsive: withResponsive);
   }
 
-  static EdgeInsetsGeometry symmetric({double vertical=0, double horizontal=0,
+  static EdgeInsetsGeometry symmetric(
+      {double vertical = 0,
+      double horizontal = 0,
       bool withResponsive = true}) {
-    return Spacing.only(top: vertical,
+    return Spacing.only(
+        top: vertical,
         right: horizontal,
         left: horizontal,
         bottom: vertical,
         withResponsive: withResponsive);
   }
 
-
   static x(double spacing) {
-    return Spacing.only(
-        left: spacing, right: spacing);
+    return Spacing.only(left: spacing, right: spacing);
   }
-  static xy(double xSpacing,double ySpacing) {
+
+  static xy(double xSpacing, double ySpacing) {
     return Spacing.only(
-        left: xSpacing, right: xSpacing,top: ySpacing,bottom: ySpacing);
+        left: xSpacing, right: xSpacing, top: ySpacing, bottom: ySpacing);
   }
 
   static y(double spacing) {
-    return Spacing.only(
-        top: spacing, bottom: spacing);
+    return Spacing.only(top: spacing, bottom: spacing);
   }
 
   static SizedBox width(double width) {
-    return SizedBox(width: width,);
+    return SizedBox(
+      width: width,
+    );
   }
 
   static SizedBox height(double height) {
-    return SizedBox(height: height,);
+    return SizedBox(
+      height: height,
+    );
   }
-
-
-
-
-
 }
 
-
-
-class Space{
-
+class Space {
   Space();
 
-
-  static Widget height(double space){
-    return SizedBox(height: MySize.getScaledSizeHeight(space),);
+  static Widget height(double space) {
+    return SizedBox(
+      height: MySize.getScaledSizeHeight(space),
+    );
   }
 
-  static Widget width(double space){
-    return SizedBox(width: MySize.getScaledSizeHeight(space),);
+  static Widget width(double space) {
+    return SizedBox(
+      width: MySize.getScaledSizeHeight(space),
+    );
   }
-
 }
 
-enum ShapeTypeFor{
-  container,
-  button
-}
+enum ShapeTypeFor { container, button }
 
-class Shape{
+class Shape {
+  static dynamic circular(double radius,
+      {ShapeTypeFor shapeTypeFor = ShapeTypeFor.container}) {
+    BorderRadius borderRadius =
+        BorderRadius.all(Radius.circular(MySize.getScaledSizeHeight(radius)));
 
-  static dynamic circular(double radius,{ShapeTypeFor shapeTypeFor=ShapeTypeFor.container}){
-    BorderRadius borderRadius = BorderRadius.all(Radius.circular(MySize.getScaledSizeHeight(radius)));
-
-    switch(shapeTypeFor) {
+    switch (shapeTypeFor) {
       case ShapeTypeFor.container:
         return borderRadius;
       case ShapeTypeFor.button:
-        return RoundedRectangleBorder(
-            borderRadius: borderRadius);
+        return RoundedRectangleBorder(borderRadius: borderRadius);
     }
   }
 
- static dynamic circularTop(double radius,{ShapeTypeFor shapeTypeFor=ShapeTypeFor.container}){
-
-    BorderRadius borderRadius = BorderRadius.only(topLeft: Radius.circular(MySize.getScaledSizeHeight(radius)),topRight: Radius.circular(MySize.getScaledSizeHeight(radius)));
-    switch(shapeTypeFor) {
+  static dynamic circularTop(double radius,
+      {ShapeTypeFor shapeTypeFor = ShapeTypeFor.container}) {
+    BorderRadius borderRadius = BorderRadius.only(
+        topLeft: Radius.circular(MySize.getScaledSizeHeight(radius)),
+        topRight: Radius.circular(MySize.getScaledSizeHeight(radius)));
+    switch (shapeTypeFor) {
       case ShapeTypeFor.container:
         return borderRadius;
-        break;
       case ShapeTypeFor.button:
-        return RoundedRectangleBorder(
-            borderRadius: borderRadius);
+        return RoundedRectangleBorder(borderRadius: borderRadius);
     }
   }
-
 }
