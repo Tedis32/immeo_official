@@ -10,4 +10,9 @@ class BarcodeService {
     return await DatabaseService.instance.insert(BarcodeEntity.fromMap(
         {BarcodeEntity.idField: id, BarcodeEntity.dataField: data}));
   }
+
+  static Future<int> setFeatured(int id) async {
+    DatabaseService.instance.setFeaturedBarcode(id);
+    return 1;
+  }
 }

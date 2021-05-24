@@ -113,4 +113,33 @@ class DatabaseService {
       return 1;
     }
   }
+
+  Future<int> updateBarcodeById(int id, Map<String, dynamic> data) async {
+    Database dbClient = await database;
+    int changesMade = await dbClient.update(
+      _dbTable,
+      data,
+      where: BarcodeEntity.idField + ' = ?',
+      whereArgs: [id],
+    );
+    return changesMade;
+  }
+
+  Future setFeaturedBarcode(int id) async {
+    Database dbClient = await database;
+    List<Map<String, dynamic>> barcodes = await dbClient.query(_dbTable,
+        columns: [BarcodeEntity.idField],
+        where: BarcodeEntity.featuredField + ' = ?',
+        whereArgs: [1]);
+
+    if (barcodes.isNotEmpty) {
+      await updateBarcodeById(barcodes.first[BarcodeEntity.idField],
+          {BarcodeEntity.featuredField: 0});
+    }
+
+    // Set the barcode as featured if it was not the previously featured barcode
+    if (barcodes.isEmpty || barcodes.first[BarcodeEntity.idField] != id) {
+      await updateBarcodeById(id, {BarcodeEntity.featuredField: 1});
+    }
+  }
 }

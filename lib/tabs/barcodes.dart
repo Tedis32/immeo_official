@@ -132,6 +132,10 @@ class _BarcodesState extends State<Barcodes> {
                   ),
                 ],
               ),
+              IconButton(
+                icon: Icon(Icons.star_border_rounded, color: Colors.amber[600]),
+                onPressed: () => _setFeaturedBarcode(_selectedBarcode.id),
+              )
             ],
           ),
         ),
@@ -139,15 +143,20 @@ class _BarcodesState extends State<Barcodes> {
     );
   }
 
+  void _setFeaturedBarcode(int bcId) async {
+    await DatabaseService.instance.setFeaturedBarcode(bcId);
+  }
+
   Widget BarcodeList() {
     return ListView.builder(
       padding: const EdgeInsets.all(8),
-      shrinkWrap: true,
       itemCount: _barcodesList.length,
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
           title: Text(_barcodesList[index].title),
           subtitle: Text(_barcodesList[index].data),
+          leading:
+              _barcodesList[index].featured ? Icon(Icons.star_rounded) : null,
           trailing: IconButton(
             icon: Icon(Icons.edit_rounded),
             onPressed: () {
@@ -171,38 +180,27 @@ class _BarcodesState extends State<Barcodes> {
   @override
   Widget build(BuildContext context) {
     // TODO: Add AnimatedList to show barcode additions and removals
-    return RefreshIndicator(
-      child: Column(
-        children: <Widget>[
-          _barcodesList.isEmpty
-              ? Padding(
-                  padding: EdgeInsets.symmetric(vertical: 40),
-                  child: Text('It\'s empty here. Try adding a new barcode.'),
-                )
-              : BarcodeList(),
-          TextButton(
-            onPressed: _scanNewBarcode,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.camera_enhance_rounded,
-                    color: Colors.amber[600],
-                  ),
-                ),
-                Text(
-                  'Add new Barcode',
-                  style: TextStyle(color: Colors.amber[600]),
-                )
-              ],
-            ),
-          ),
-        ],
+    return Scaffold(
+      body: RefreshIndicator(
+        child: _barcodesList.isEmpty
+            ? Padding(
+                padding: EdgeInsets.symmetric(vertical: 40),
+                child: Text('It\'s empty here. Try adding a new barcode.'),
+              )
+            : BarcodeList(),
+        onRefresh: _loadBarcodes,
       ),
-      onRefresh: _loadBarcodes,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _scanNewBarcode,
+        label: Text(
+          'Add new Barcode',
+          style: TextStyle(color: Colors.white),
+        ),
+        icon: Icon(
+          Icons.camera_enhance_rounded,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }
