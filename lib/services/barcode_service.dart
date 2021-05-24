@@ -7,7 +7,12 @@ class BarcodeService {
     // Get the next available barcode id
     int id = await DatabaseService.instance.getNextBarcodeId();
     // Insert the new barcode into the local database
-    return await DatabaseService.instance.insert(
-        Barcode.fromMap({Barcode.idField: id, Barcode.dataField: data}));
+    return await DatabaseService.instance.insert(BarcodeEntity.fromMap(
+        {BarcodeEntity.idField: id, BarcodeEntity.dataField: data}));
+  }
+
+  static Future<int> setFeatured(int id) async {
+    DatabaseService.instance.setFeaturedBarcode(id);
+    return 1;
   }
 }

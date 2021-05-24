@@ -28,6 +28,9 @@ dependencies:
   flutter_barcode_scanner: ^2.0.0
   # Displaying Qr codes on application
   qr_flutter: ^4.0.0
+  # Displaying barcodes
+  barcode: ^2.1.0
+  barcode_widget: ^2.0.1
 
   # Database for storing barcode data locally
   sqflite: ^2.0.0+3
@@ -41,7 +44,6 @@ dependencies:
 
   provider: ^5.0.0
   shared_preferences: ^2.0.5
-  barcode: ^2.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
