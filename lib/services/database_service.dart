@@ -142,4 +142,15 @@ class DatabaseService {
       await updateBarcodeById(id, {BarcodeEntity.featuredField: 1});
     }
   }
+
+  Future<BarcodeEntity> getFeaturedBarcode() async {
+    Database dbClient = await database;
+    List<Map<String, dynamic>> barcodes = await dbClient.query(_dbTable,
+        where: BarcodeEntity.featuredField + ' = ?', whereArgs: [1], limit: 1);
+
+    if (barcodes.isNotEmpty) {
+      return BarcodeEntity.fromMap(barcodes.first);
+    }
+    throw Exception('No featured barcode found');
+  }
 }
