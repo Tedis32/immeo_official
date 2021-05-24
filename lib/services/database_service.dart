@@ -1,5 +1,5 @@
 import 'package:path/path.dart';
-import 'package:scan_in/models/Barcode.dart';
+import 'package:scan_in/entities/BarcodeEntity.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseService {
@@ -51,10 +51,10 @@ class DatabaseService {
 
   // Database helper methods:
 
-  Future<int> insert(BarcodeEntity bc) async {
+  Future<BarcodeEntity> insert(BarcodeEntity bc) async {
     Database dbClient = await database;
-    int id = await dbClient.insert(_dbTable, bc.toMap());
-    return id;
+    await dbClient.insert(_dbTable, bc.toMap());
+    return bc;
   }
 
   Future<BarcodeEntity> queryBarcode(int id) async {
@@ -62,7 +62,7 @@ class DatabaseService {
 
     List<Map<String, dynamic>> maps = await db.query(_dbTable,
         columns: [BarcodeEntity.idField, BarcodeEntity.dataField],
-        where: BarcodeEntity.idField + ' = ?',
+        where: '${BarcodeEntity.idField} = ?',
         whereArgs: [id]);
     if (maps.length > 0) {
       return BarcodeEntity.fromMap(maps.first);
@@ -74,6 +74,7 @@ class DatabaseService {
   Future<int> clearDatabase() async {
     Database db = await database;
     int deletedRows = await db.rawDelete("DELETE FROM $_dbTable");
+    print('Deleted: $deletedRows entried from the database');
     return deletedRows;
   }
 
@@ -87,12 +88,12 @@ class DatabaseService {
     return result;
   }
 
-  Future<bool> deleteBarcodeByIndex(int index) async {
+  Future<bool> deleteBarcodeById(int id) async {
     Database db = await database;
     int deletedRows = await db.delete(
       _dbTable,
-      where: BarcodeEntity.idField + ' = ?',
-      whereArgs: [index],
+      where: '${BarcodeEntity.idField} = ?',
+      whereArgs: [id],
     );
     return deletedRows > 0;
   }

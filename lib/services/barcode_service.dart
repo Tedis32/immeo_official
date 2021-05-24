@@ -1,8 +1,8 @@
-import 'package:scan_in/models/Barcode.dart';
+import 'package:scan_in/entities/BarcodeEntity.dart';
 import 'package:scan_in/services/database_service.dart';
 
 class BarcodeService {
-  static Future<int> addBarcode(String data) async {
+  static Future<BarcodeEntity> addBarcode(String data) async {
     // TODO: Allow duplicate barcode data's or not
     // Get the next available barcode id
     int id = await DatabaseService.instance.getNextBarcodeId();

@@ -3,7 +3,7 @@ class BarcodeEntity {
   int id = -1;
   String data = "0000";
   String title = "New Barcode";
-  bool featured = false;
+  int featured = 0;
 
   static final String idField = '_id';
   static final String dataField = 'barcode';
@@ -17,7 +17,7 @@ class BarcodeEntity {
     id = map[idField];
     data = map[dataField];
     title = map[titleField] != null ? map[titleField] : title;
-    featured = map[featuredField] != null ? map[featuredField] == 1 : featured;
+    featured = map[featuredField] != null ? map[featuredField] : featured;
   }
 
   // convenience method to create a Map from this Word object

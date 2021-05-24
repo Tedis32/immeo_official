@@ -1,9 +1,11 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:scan_in/providers/barcodeStore.dart';
 import 'package:scan_in/services/database_service.dart';
 import 'package:scan_in/shop/shop.dart';
 import 'alerts.dart';
-import 'package:scan_in/models/Barcode.dart';
+import 'package:scan_in/entities/BarcodeEntity.dart';
 
 class Featured extends StatefulWidget {
   @override
@@ -13,27 +15,10 @@ class Featured extends StatefulWidget {
 }
 
 class _FeaturedState extends State<Featured> {
-  List<BarcodeEntity> _featured = [];
-
-  @override
-  void initState() {
-    super.initState();
-
-    _loadFeaturedBarcode();
-  }
-
-  Future _loadFeaturedBarcode() async {
-    DatabaseService.instance.getFeaturedBarcode().then((barcode) {
-      setState(() {
-        _featured.clear();
-        _featured.add(barcode);
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final data = MediaQuery.of(context);
+    final store = Provider.of<BarcodeStore>(context);
     return widget.index == 2
         ? Alerts(
             backToTabs: false,
@@ -46,7 +31,7 @@ class _FeaturedState extends State<Featured> {
                 body: SingleChildScrollView(
                   child: Column(
                     children: [
-                      _featured.isNotEmpty
+                      store.hasFeatured
                           ? Column(
                               children: <Widget>[
                                 Padding(
@@ -59,7 +44,7 @@ class _FeaturedState extends State<Featured> {
                                   padding: EdgeInsets.all(20),
                                   color: Colors.white,
                                   child: BarcodeWidget(
-                                    data: _featured.first.data,
+                                    data: store.featured.data,
                                     barcode: Barcode.code128(),
                                     height: 250,
                                     padding: EdgeInsets.all(10),
@@ -102,6 +87,12 @@ class _FeaturedState extends State<Featured> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(right: 30),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                await DatabaseService.instance.clearDatabase();
+                              },
+                              child: Text("Clear Database"),
                             ),
                           ],
                         ),
