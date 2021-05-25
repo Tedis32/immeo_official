@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:scan_in/tabs/featured_tab_regulator/featured.dart';
 
 class Alerts extends StatefulWidget {
@@ -13,6 +14,14 @@ class _AlertsState extends State<Alerts> {
   Widget build(BuildContext context) {
     return widget.backToTabs == false
         ? Scaffold(
+          appBar: AppBar(
+                  title: Text(
+                    "What's new?",
+                    style: TextStyle(
+                        fontFamily: GoogleFonts.shadowsIntoLight().fontFamily,
+                        fontSize: 30),
+                  ),
+                ),
             body: Center(
             child: TextButton(
               child: Text("Go back!"),

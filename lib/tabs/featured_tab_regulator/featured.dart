@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:scan_in/shop/shop.dart';
 import 'alerts.dart';
 
@@ -22,6 +23,14 @@ class _FeaturedState extends State<Featured> {
                 goBack: false,
               )
             : Scaffold(
+                appBar: AppBar(
+                  title: Text(
+                    "Featured",
+                    style: TextStyle(
+                        fontFamily: GoogleFonts.shadowsIntoLight().fontFamily,
+                        fontSize: 30),
+                  ),
+                ),
                 body: SingleChildScrollView(
                   child: Column(
                     children: [

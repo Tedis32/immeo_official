@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:scan_in/shop/shop.dart';
+import 'package:scan_in/tabs/barcodes.dart';
+import 'package:scan_in/tabs/featured_tab_regulator/alerts.dart';
+import 'package:scan_in/tabs/featured_tab_regulator/featured.dart';
 
 import 'AppThemeNotifier.dart';
 import 'app.dart';

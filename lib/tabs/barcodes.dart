@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:scan_in/models/Barcode.dart';
 import 'package:scan_in/services/barcode_service.dart';
 import 'package:scan_in/services/database_service.dart';
@@ -83,73 +84,83 @@ class _BarcodesState extends State<Barcodes> {
   @override
   Widget build(BuildContext context) {
     // TODO: Add AnimatedList to show barcode additions and removals
-    return RefreshIndicator(
-      child: Column(
-        children: <Widget>[
-          _barcodesList.isEmpty
-              ? (TextButton(
-                  onPressed: _loadBarcodes,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.refresh_rounded,
-                          color: Colors.amber[600],
-                        ),
-                      ),
-                      Text(
-                        'Refresh Barcodes',
-                        style: TextStyle(color: Colors.amber[600]),
-                      )
-                    ],
-                  ),
-                ))
-              : ListView.builder(
-                  padding: const EdgeInsets.all(8),
-                  shrinkWrap: true,
-                  itemCount: _barcodesList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      title: Text(_barcodesList[index].id.toString()),
-                      subtitle: Text(_barcodesList[index].data),
-                      trailing: IconButton(
-                        icon: Icon(Icons.delete_rounded),
-                        onPressed: () => {_delete(_barcodesList[index].id)},
-                      ),
-                      onTap: () => showDialog(
-                        context: context,
-                        builder: (BuildContext context) =>
-                            _buildPopupDialog(context, index),
-                      ),
-                    );
-                  },
-                ),
-          TextButton(
-            onPressed: _scanNewBarcode,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.camera_enhance_rounded,
-                    color: Colors.amber[600],
-                  ),
-                ),
-                Text(
-                  'Add new Barcode',
-                  style: TextStyle(color: Colors.amber[600]),
-                )
-              ],
-            ),
-          ),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Barcodes",
+          style: TextStyle(
+              fontFamily: GoogleFonts.shadowsIntoLight().fontFamily,
+              fontSize: 30),
+        ),
       ),
-      onRefresh: _loadBarcodes,
+      body: RefreshIndicator(
+        child: Column(
+          children: <Widget>[
+            _barcodesList.isEmpty
+                ? (TextButton(
+                    onPressed: _loadBarcodes,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.refresh_rounded,
+                            color: Colors.amber[600],
+                          ),
+                        ),
+                        Text(
+                          'Refresh Barcodes',
+                          style: TextStyle(color: Colors.amber[600]),
+                        )
+                      ],
+                    ),
+                  ))
+                : ListView.builder(
+                    padding: const EdgeInsets.all(8),
+                    shrinkWrap: true,
+                    itemCount: _barcodesList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        title: Text(_barcodesList[index].id.toString()),
+                        subtitle: Text(_barcodesList[index].data),
+                        trailing: IconButton(
+                          icon: Icon(Icons.delete_rounded),
+                          onPressed: () => {_delete(_barcodesList[index].id)},
+                        ),
+                        onTap: () => showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              _buildPopupDialog(context, index),
+                        ),
+                      );
+                    },
+                  ),
+            TextButton(
+              onPressed: _scanNewBarcode,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.camera_enhance_rounded,
+                      color: Colors.amber[600],
+                    ),
+                  ),
+                  Text(
+                    'Add new Barcode',
+                    style: TextStyle(color: Colors.amber[600]),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+        onRefresh: _loadBarcodes,
+      ),
     );
   }
 }

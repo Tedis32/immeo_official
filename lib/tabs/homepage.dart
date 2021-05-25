@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scan_in/tabs/barcodes.dart';
 import 'package:scan_in/tabs/featured_tab_regulator/featured.dart';
+import 'package:scan_in/main.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,23 +17,11 @@ class _HomePageState extends State<HomePage> {
   late ThemeData themeData;
 
   int _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     themeData = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: _currentIndex == 0
-            ? Text("Featured",
-                style: TextStyle(
-                    fontFamily: GoogleFonts.shadowsIntoLight().fontFamily,
-                    fontSize: 30))
-            : Text(
-                "Barcodes",
-                style: TextStyle(
-                    fontFamily: GoogleFonts.shadowsIntoLight().fontFamily,
-                    fontSize: 30),
-              ),
-      ),
       body: IndexedStack(children: tabs, index: _currentIndex),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
