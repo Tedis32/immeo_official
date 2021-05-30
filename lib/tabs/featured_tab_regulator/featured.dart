@@ -1,5 +1,6 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:scan_in/providers/barcodeStore.dart';
 import 'package:scan_in/services/database_service.dart';
@@ -95,12 +96,6 @@ class _FeaturedState extends State<Featured> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(right: 30),
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                await DatabaseService.instance.clearDatabase();
-                              },
-                              child: Text("Clear Database"),
                             ),
                           ],
                         ),

@@ -41,6 +41,7 @@ class _ShopState extends State<Shop> {
                   setState(() {});
                 },
               ),
-            ));
+            ),
+          );
   }
 }
