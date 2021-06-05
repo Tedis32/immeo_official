@@ -20,89 +20,79 @@ class _FeaturedState extends State<Featured> {
   Widget build(BuildContext context) {
     final data = MediaQuery.of(context);
     final store = Provider.of<BarcodeStore>(context);
-    return widget.index == 2
-        ? Alerts(
-            backToTabs: false,
-          )
-        : widget.index == 1
-            ? Shop(
-                goBack: false,
-              )
-            : Scaffold(
-                appBar: AppBar(
-                  title: Text(
-                    "Featured",
-                    style: TextStyle(
-                        fontFamily: GoogleFonts.shadowsIntoLight().fontFamily,
-                        fontSize: 30),
-                  ),
-                ),
-                body: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      store.hasFeatured
-                          ? Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Text(
-                                    "Fitness Factory",
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(20),
-                                  color: Colors.white,
-                                  child: BarcodeWidget(
-                                    data: store.featured.data,
-                                    barcode: Barcode.code128(),
-                                    height: 250,
-                                    padding: EdgeInsets.all(10),
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Padding(
-                              child: Text('No Barcode is currently featured'),
-                              padding: EdgeInsets.all(20),
-                            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Featured",
+          style: TextStyle(
+              fontFamily: GoogleFonts.shadowsIntoLight().fontFamily,
+              fontSize: 30),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            store.hasFeatured
+                ? Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          "Fitness Factory",
+                        ),
+                      ),
                       Container(
-                        alignment: Alignment.topCenter,
-                        padding: EdgeInsets.only(top: 20),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 30),
-                            ),
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  widget.index = 1;
-                                  setState(() {});
-                                },
-                                child: Text("Shop"),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 30),
-                            ),
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  widget.index = 2;
-                                  setState(() {});
-                                },
-                                child: Text("Alerts"),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: 30),
-                            ),
-                          ],
+                        padding: EdgeInsets.all(20),
+                        color: Colors.white,
+                        child: BarcodeWidget(
+                          data: store.featured.data,
+                          barcode: Barcode.code128(),
+                          height: 250,
+                          padding: EdgeInsets.all(10),
                         ),
                       ),
                     ],
+                  )
+                : Padding(
+                    child: Text('No Barcode is currently featured'),
+                    padding: EdgeInsets.all(20),
                   ),
-                ),
-              );
+            Container(
+              alignment: Alignment.topCenter,
+              padding: EdgeInsets.only(top: 20),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 30),
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {});
+                      },
+                      child: Text("Shop"),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 30),
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {});
+                      },
+                      child: Text("Alerts"),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 30),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

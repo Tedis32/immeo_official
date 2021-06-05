@@ -6,6 +6,7 @@ import 'package:scan_in/providers/barcodeStore.dart';
 import 'AppThemeNotifier.dart';
 import 'app.dart';
 
+
 void main() {
   //You will need to initialize AppThemeNotifier class for theme changes.
   WidgetsFlutterBinding.ensureInitialized();
