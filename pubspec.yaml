@@ -24,6 +24,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # HTTP Request package
+  http: ^0.13.3
+
   # Scanning barcodes into application
   flutter_barcode_scanner: ^2.0.0
   # Displaying Qr codes on application

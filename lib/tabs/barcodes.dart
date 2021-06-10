@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:provider/provider.dart';
 import 'package:scan_in/entities/BarcodeEntity.dart';
+import 'package:scan_in/pages/postsPageTest.dart';
 import 'package:scan_in/providers/barcodeStore.dart';
 import 'package:scan_in/services/barcode_service.dart';
-import 'package:scan_in/services/database_service.dart';
 import 'package:barcode/barcode.dart';
 
 class Barcodes extends StatefulWidget {
@@ -111,7 +111,7 @@ class _BarcodesState extends State<Barcodes> {
     );
   }
 
-  Widget BarcodeList() {
+  Widget barcodeList() {
     return ListView.builder(
       padding: const EdgeInsets.all(8),
       itemCount: store.barcodes.length,
@@ -147,7 +147,7 @@ class _BarcodesState extends State<Barcodes> {
     store = Provider.of<BarcodeStore>(context);
     // TODO: Add AnimatedList to show barcode additions and removals
     return Scaffold(
-      body: RefreshIndicator(
+      body: Column(children: <Widget>[RefreshIndicator(
         child: store.barcodes.isEmpty
             ? Center(
                 child: Padding(
@@ -155,9 +155,9 @@ class _BarcodesState extends State<Barcodes> {
                   child: Text('It\'s empty here. Try adding a new barcode.'),
                 ),
               )
-            : BarcodeList(),
+            : barcodeList(),
         onRefresh: store.refreshBarcodes,
-      ),
+      ), PostsPage(),],),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _scanNewBarcode,
         label: Text(
