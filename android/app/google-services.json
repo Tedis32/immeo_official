@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1053317174717",
+    "project_id": "immao-api",
+    "storage_bucket": "immao-api.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1053317174717:android:9ab368fe078cebdbd56ed4",
+        "android_client_info": {
+          "package_name": "com.example.scan_in"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1053317174717-gi5i7vda45nbvsandd9sq7robu019vcq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRSABAKwSG2ymaLoKfAg0y79PSSIuIpSQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1053317174717-gi5i7vda45nbvsandd9sq7robu019vcq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

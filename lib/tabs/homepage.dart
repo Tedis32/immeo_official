@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:scan_in/providers/google_sign_in.dart';
 import 'package:scan_in/tabs/barcodes.dart';
 import 'package:scan_in/tabs/featured_tab_regulator/featured.dart';
 
@@ -21,6 +23,16 @@ class _HomePageState extends State<HomePage> {
     themeData = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          TextButton(
+            child: Text("Logout"),
+            onPressed: () {
+              final provider =
+                  Provider.of<GoogleSignInProvider>(context, listen: false);
+              provider.logOut();
+            },
+          )
+        ],
         title: _currentIndex == 0
             ? Text("Featured",
                 style: TextStyle(

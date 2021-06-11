@@ -88,12 +88,6 @@ class _FeaturedState extends State<Featured> {
                             Padding(
                               padding: EdgeInsets.only(right: 30),
                             ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                await DatabaseService.instance.clearDatabase();
-                              },
-                              child: Text("Clear Database"),
-                            ),
                           ],
                         ),
                       ),

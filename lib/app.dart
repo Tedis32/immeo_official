@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:scan_in/auth_stuff/sign_up.dart';
+import 'package:scan_in/pages/auth_wrap.dart';
 import 'UI_stuff/AppTheme.dart';
 import 'AppThemeNotifier.dart';
 import 'tabs/homepage.dart';
@@ -17,7 +19,7 @@ class _AppState extends State<App> {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: AppTheme.getThemeFromThemeMode(value.themeMode()),
-          home: HomePage(),
+          home: AuthWrap(),
         );
       },
     );
