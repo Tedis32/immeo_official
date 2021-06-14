@@ -8,11 +8,11 @@ class HTTPService {
   final String postsUrl = "https://jsonplaceholder.typicode.com/posts";
 
   Future<List<Post>> getPosts() async {
-    Response res = await get(Uri(path: postsUrl));
+    print("Getting Posts ...");
+    Response res = await get(Uri.parse(postsUrl));
 
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
-
       List<Post> posts =
           body.map((dynamic item) => Post.fromJson(item)).toList();
       return posts;

@@ -19,4 +19,8 @@ class Post {
       title: json['title'] as String,
     );
   }
+
+  String toString() {
+    return "title: $title, userid: $userid, id: $id";
+  }
 }

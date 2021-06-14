@@ -147,7 +147,8 @@ class _BarcodesState extends State<Barcodes> {
     store = Provider.of<BarcodeStore>(context);
     // TODO: Add AnimatedList to show barcode additions and removals
     return Scaffold(
-      body: Column(children: <Widget>[RefreshIndicator(
+      body: PostsPage(),
+      /*RefreshIndicator(
         child: store.barcodes.isEmpty
             ? Center(
                 child: Padding(
@@ -157,7 +158,7 @@ class _BarcodesState extends State<Barcodes> {
               )
             : barcodeList(),
         onRefresh: store.refreshBarcodes,
-      ), PostsPage(),],),
+      ),*/
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _scanNewBarcode,
         label: Text(

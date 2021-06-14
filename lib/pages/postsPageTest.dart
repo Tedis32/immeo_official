@@ -16,9 +16,9 @@ class PostsPage extends StatelessWidget {
             return ListView(
                 children: posts!
                     .map(
-                      (Post post) => ListTile(title: Text(post.title)),
+                      (Post post) => ListTile(title: Text(post.title),),
                     )
-                    .toList());
+                    .toList(),);
           }
           return Center(
             child: CircularProgressIndicator(),
